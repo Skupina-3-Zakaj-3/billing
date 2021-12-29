@@ -1,11 +1,20 @@
 package si.fri.rso.skupina3.lib;
 
 public class Bill {
+    private Integer bill_id;
     private Integer payer_id;
     private Integer receiver_id;
     private Integer rv_id;
     private Integer rv_reservation_id;
     private Float price;
+
+    public Integer getBill_id() {
+        return bill_id;
+    }
+
+    public void setBill_id(Integer bill_id) {
+        this.bill_id = bill_id;
+    }
 
     public Integer getPayer_id() {
         return payer_id;

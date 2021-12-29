@@ -63,6 +63,51 @@ public class BillBean {
         return BillConverter.toDto(billEntity);
     }
 
+    public Bill updateBill(Integer billId, Bill bill) {
+
+        BillEntity billEntity = em.find(BillEntity.class, billId);
+
+        if (billEntity == null) {
+            return null;
+        }
+
+        BillEntity updatedBillEntity = BillConverter.toEntity(bill);
+
+        try {
+            beginTx();
+            updatedBillEntity.setBill_id(bill.getBill_id());
+            em.merge(updatedBillEntity);
+            commitTx();
+        }
+        catch (Exception e) {
+            rollbackTx();
+        }
+
+        return BillConverter.toDto(updatedBillEntity);
+    }
+
+    public boolean deleteBill(Integer billId) {
+
+        BillEntity billEntity = em.find(BillEntity.class, billId);
+
+        if (billEntity != null) {
+            try {
+                beginTx();
+                em.remove(billEntity);
+                commitTx();
+            }
+            catch (Exception e) {
+                rollbackTx();
+            }
+        }
+        else {
+            return false;
+        }
+
+        return true;
+    }
+
+
     private void beginTx() {
         if (!em.getTransaction().isActive()) {
             em.getTransaction().begin();
