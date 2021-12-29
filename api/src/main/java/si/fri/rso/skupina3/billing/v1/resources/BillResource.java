@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 @Consumes(MediaType.APPLICATION_JSON)
 public class BillResource {
 
-    private Logger log = Logger.getLogger(BillResource.class.getName());
+    private final Logger log = Logger.getLogger(BillResource.class.getName());
 
     @Inject
     private BillBean billBean;
@@ -65,5 +65,37 @@ public class BillResource {
         }
 
         return Response.status(Response.Status.OK).entity(bill).build();
+    }
+
+    @PUT
+    @Path("{billId}")
+    public Response putRv(@PathParam("billId") Integer billId, Bill bill) {
+
+        log.info("putBill() - PUT");
+
+        bill = billBean.updateBill(billId, bill);
+
+        if (bill == null) {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(bill).build();
+
+    }
+
+    @DELETE
+    @Path("{billId}")
+    public Response deleteRv(@PathParam("billId") Integer billId) {
+
+        log.info("deleteBill() - DELETE");
+
+        boolean deleted = billBean.deleteBill(billId);
+
+        if (deleted) {
+            return Response.status(Response.Status.NO_CONTENT).build();
+        }
+        else {
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
     }
 }

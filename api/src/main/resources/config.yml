@@ -4,9 +4,9 @@ kumuluzee:
     name: dev
   version: 1.0.0
   server:
-    base-url: http://localhost:8081
+    base-url: http://localhost:8087
     http:
-      port: 8081
+      port: 8087
   datasources:
     - jndi-name: jdbc/BillingDS
       connection-url: jdbc:postgresql://localhost:5435/billing

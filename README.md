@@ -20,11 +20,11 @@ docker run -d --name pg-billing --network="rso" -e POSTGRES_USER=dbuser -e POSTG
 ## Run the container in network
 
 ```bash
-docker run -p 8081:8081 --name billing --network="rso" -e KUMULUZEE_DATASOURCES0_CONNECTIONURL=jdbc:postgresql://pg-billing:5432/billing billing
+docker run -p 8087:8087 --name billing --network="rso" -e KUMULUZEE_DATASOURCES0_CONNECTIONURL=jdbc:postgresql://pg-billing:5432/billing billing
 ```
 
 ## Run the container from Docker hub in network
 
 ```bash
-docker run -p 8081:8081 --name billing --network="rso" anzeha/billing:latest
+docker run -p 8087:8087 --name billing --network="rso" anzeha/billing:latest
 ```
