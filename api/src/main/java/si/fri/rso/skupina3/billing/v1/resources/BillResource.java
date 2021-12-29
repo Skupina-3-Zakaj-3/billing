@@ -35,4 +35,35 @@ public class BillResource {
 
         return Response.status(Response.Status.OK).entity(bills).build();
     }
+
+    @GET
+    @Path("{id}")
+    public Response getBill(@PathParam("id") Integer id) {
+
+        log.info("getBill() - GET");
+
+        Bill bill = billBean.getBill(id);
+
+        if(bill == null){
+            return Response.status(Response.Status.NOT_FOUND).build();
+        }
+
+        return Response.status(Response.Status.OK).entity(bill).build();
+    }
+
+    @POST
+    public Response createBill(Bill bill) {
+
+        log.info("createBill() - POST");
+
+        // TODO: check for needed parameters and send back bad request if they are not present
+        if (bill == null) {
+            return Response.status(Response.Status.BAD_REQUEST).build();
+        }
+        else {
+            bill = billBean.createBill(bill);
+        }
+
+        return Response.status(Response.Status.OK).entity(bill).build();
+    }
 }
