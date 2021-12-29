@@ -76,7 +76,7 @@ public class BillBean {
         try {
             beginTx();
             updatedBillEntity.setBill_id(bill.getBill_id());
-            em.merge(updatedBillEntity);
+            updatedBillEntity = em.merge(updatedBillEntity);
             commitTx();
         }
         catch (Exception e) {

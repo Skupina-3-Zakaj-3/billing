@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: billing-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: billing
+  template:
+    metadata:
+      labels:
+        app: rv-billing
+    spec:
+      containers:
+        - image: anzeha/billing
+          name: billing
+          env:
+            - name: KUMULUZEE_DATASOURCES0_CONNECTIONURL
+              value: jdbc:postgresql://surus.db.elephantsql.com/btfdhkkm
+            - name: KUMULUZEE_DATASOURCES0_USERNAME
+              value: btfdhkkm
+            - name: KUMULUZEE_DATASOURCES0_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-pass
+                  key: KUMULUZEE_DATASOURCES0_PASSWORD_BILLING
+            - name: KUMULUZEE_DATASOURCES0_POOL_MAX-SIZE
+              value: "1"
+          ports:
+            - containerPort: 8087
+              name: server
+              protocol: TCP
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: billing
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8087
+      protocol: TCP
+      targetPort: server
+  selector:
+    app: billing
