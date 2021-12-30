@@ -1,4 +1,4 @@
-# billing
+# billing service
 
 ## Build the image
 
