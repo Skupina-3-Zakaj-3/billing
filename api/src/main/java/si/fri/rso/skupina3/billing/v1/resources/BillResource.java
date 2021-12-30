@@ -72,7 +72,7 @@ public class BillResource {
     public Response putRv(@PathParam("billId") Integer billId, Bill bill) {
 
         log.info("putBill() - PUT");
-
+        //TODO: preveri, da so ustrezna polja
         bill = billBean.updateBill(billId, bill);
 
         if (bill == null) {
