@@ -10,7 +10,7 @@ spec:
   template:
     metadata:
       labels:
-        app: rv-billing
+        app: billing
     spec:
       containers:
         - image: anzeha/billing
