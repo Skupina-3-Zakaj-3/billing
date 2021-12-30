@@ -1,7 +1,7 @@
 package si.fri.rso.skupina3.billing.v1.resources;
 
-import si.fri.rso.skupina3.billing.services.beans.BillBean;
-import si.fri.rso.skupina3.lib.Bill;
+import si.fri.rso.skupina3.billing.services.beans.ParkBillBean;
+import si.fri.rso.skupina3.lib.ParkBill;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -14,15 +14,15 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @ApplicationScoped
-@Path("/billing")
+@Path("/park_bills")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class BillResource {
+public class ParkBillResource {
 
-    private final Logger log = Logger.getLogger(BillResource.class.getName());
+    private final Logger log = Logger.getLogger(RvBillResource.class.getName());
 
     @Inject
-    private BillBean billBean;
+    private ParkBillBean parkBillBean;
 
     @Context
     protected UriInfo uriInfo;
@@ -31,9 +31,9 @@ public class BillResource {
     public Response getBills() {
 
         log.info("getBills() - GET");
-        List<Bill> bills = billBean.getBills(uriInfo);
+        List<ParkBill> parkBills = parkBillBean.getBills(uriInfo);
 
-        return Response.status(Response.Status.OK).entity(bills).build();
+        return Response.status(Response.Status.OK).entity(parkBills).build();
     }
 
     @GET
@@ -42,54 +42,55 @@ public class BillResource {
 
         log.info("getBill() - GET");
 
-        Bill bill = billBean.getBill(id);
+        ParkBill parkBill = parkBillBean.getBill(id);
 
-        if(bill == null){
+        if(parkBill == null){
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.status(Response.Status.OK).entity(bill).build();
+        return Response.status(Response.Status.OK).entity(parkBill).build();
     }
 
     @POST
-    public Response createBill(Bill bill) {
+    public Response createBill(ParkBill parkBill) {
 
         log.info("createBill() - POST");
 
         // TODO: check for needed parameters and send back bad request if they are not present
-        if (bill == null) {
+        if (parkBill == null) {
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         else {
-            bill = billBean.createBill(bill);
+            parkBill = parkBillBean.createBill(parkBill);
         }
 
-        return Response.status(Response.Status.OK).entity(bill).build();
+        return Response.status(Response.Status.OK).entity(parkBill).build();
     }
 
     @PUT
     @Path("{billId}")
-    public Response putRv(@PathParam("billId") Integer billId, Bill bill) {
+    public Response putBill(@PathParam("billId") Integer billId, ParkBill parkBill) {
 
         log.info("putBill() - PUT");
         //TODO: preveri, da so ustrezna polja
-        bill = billBean.updateBill(billId, bill);
+        parkBill.setBill_id(billId);
+        parkBill = parkBillBean.updateBill(billId, parkBill);
 
-        if (bill == null) {
+        if (parkBill == null) {
             return Response.status(Response.Status.NOT_FOUND).build();
         }
 
-        return Response.status(Response.Status.OK).entity(bill).build();
+        return Response.status(Response.Status.OK).entity(parkBill).build();
 
     }
 
     @DELETE
     @Path("{billId}")
-    public Response deleteRv(@PathParam("billId") Integer billId) {
+    public Response deleteBill(@PathParam("billId") Integer billId) {
 
         log.info("deleteBill() - DELETE");
 
-        boolean deleted = billBean.deleteBill(billId);
+        boolean deleted = parkBillBean.deleteBill(billId);
 
         if (deleted) {
             return Response.status(Response.Status.NO_CONTENT).build();

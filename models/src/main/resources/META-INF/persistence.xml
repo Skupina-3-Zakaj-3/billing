@@ -3,7 +3,8 @@
     <persistence-unit name="billing-jpa" transaction-type="RESOURCE_LOCAL">
         <non-jta-data-source>jdbc/BillingDS</non-jta-data-source>
 
-        <class>si.fri.rso.skupina3.billing.models.entities.BillEntity</class>
+        <class>si.fri.rso.skupina3.billing.models.entities.RvBillEntity</class>
+        <class>si.fri.rso.skupina3.billing.models.entities.ParkBillEntity</class>
         <class>si.fri.rso.skupina3.billing.models.converters.InstantAtributeConverter</class>
 
         <properties>

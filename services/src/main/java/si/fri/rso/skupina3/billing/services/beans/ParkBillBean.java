@@ -2,9 +2,9 @@ package si.fri.rso.skupina3.billing.services.beans;
 
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
-import si.fri.rso.skupina3.billing.models.converters.BillConverter;
-import si.fri.rso.skupina3.billing.models.entities.BillEntity;
-import si.fri.rso.skupina3.lib.Bill;
+import si.fri.rso.skupina3.billing.models.converters.ParkBillConverter;
+import si.fri.rso.skupina3.billing.models.entities.ParkBillEntity;
+import si.fri.rso.skupina3.lib.ParkBill;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -16,84 +16,84 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @RequestScoped
-public class BillBean {
+public class ParkBillBean {
 
-    private final Logger log = Logger.getLogger(BillBean.class.getName());
+    private final Logger log = Logger.getLogger(ParkBillBean.class.getName());
 
     @Inject
     private EntityManager em;
 
-    public List<Bill> getBills(UriInfo uriInfo) {
+    public List<ParkBill> getBills(UriInfo uriInfo) {
 
         QueryParameters queryParameters = QueryParameters.query(uriInfo.getRequestUri().getQuery()).defaultOffset(0)
                 .build();
 
-        return JPAUtils.queryEntities(em, BillEntity.class, queryParameters).stream()
-                .map(BillConverter::toDto).collect(Collectors.toList());
+        return JPAUtils.queryEntities(em, ParkBillEntity.class, queryParameters).stream()
+                .map(ParkBillConverter::toDto).collect(Collectors.toList());
     }
 
 
-    public Bill getBill(Integer billId) {
-        BillEntity billEntity = em.find(BillEntity.class, billId);
+    public ParkBill getBill(Integer billId) {
+        ParkBillEntity ParkBillEntity = em.find(ParkBillEntity.class, billId);
 
-        if (billEntity == null) {
+        if (ParkBillEntity == null) {
             throw new NotFoundException();
         }
 
-        return BillConverter.toDto(billEntity);
+        return ParkBillConverter.toDto(ParkBillEntity);
     }
 
-    public Bill createBill(Bill bill) {
+    public ParkBill createBill(ParkBill ParkBill) {
 
-        BillEntity billEntity = BillConverter.toEntity(bill);
+        ParkBillEntity ParkBillEntity = ParkBillConverter.toEntity(ParkBill);
 
         try {
             beginTx();
-            em.persist(billEntity);
+            em.persist(ParkBillEntity);
             commitTx();
         }
         catch (Exception e) {
             rollbackTx();
         }
 
-        if (billEntity.getRv_id() == null) {
+        if (ParkBillEntity.getBill_id() == null) {
             throw new RuntimeException("Entity was not persisted");
         }
 
-        return BillConverter.toDto(billEntity);
+        return ParkBillConverter.toDto(ParkBillEntity);
     }
 
-    public Bill updateBill(Integer billId, Bill bill) {
+    public ParkBill updateBill(Integer billId, ParkBill ParkBill) {
 
-        BillEntity billEntity = em.find(BillEntity.class, billId);
+        ParkBillEntity ParkBillEntity = em.find(ParkBillEntity.class, billId);
 
-        if (billEntity == null) {
+        if (ParkBillEntity == null) {
             return null;
         }
 
-        BillEntity updatedBillEntity = BillConverter.toEntity(bill);
+        ParkBillEntity updatedParkBillEntity = ParkBillConverter.toEntity(ParkBill);
 
         try {
             beginTx();
-            updatedBillEntity.setBill_id(bill.getBill_id());
-            updatedBillEntity = em.merge(updatedBillEntity);
+            updatedParkBillEntity.setBill_id(ParkBill.getBill_id());
+            updatedParkBillEntity = em.merge(updatedParkBillEntity);
             commitTx();
         }
         catch (Exception e) {
             rollbackTx();
         }
 
-        return BillConverter.toDto(updatedBillEntity);
+        return ParkBillConverter.toDto(updatedParkBillEntity);
     }
 
     public boolean deleteBill(Integer billId) {
 
-        BillEntity billEntity = em.find(BillEntity.class, billId);
+        ParkBillEntity ParkBillEntity = em.find(ParkBillEntity.class, billId);
 
-        if (billEntity != null) {
+        if (ParkBillEntity != null) {
             try {
                 beginTx();
-                em.remove(billEntity);
+                em.remove(ParkBillEntity);
                 commitTx();
             }
             catch (Exception e) {

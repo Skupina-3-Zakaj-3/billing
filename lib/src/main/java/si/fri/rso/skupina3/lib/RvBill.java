@@ -1,12 +1,14 @@
 package si.fri.rso.skupina3.lib;
 
-public class Bill {
+public class RvBill {
+
     private Integer bill_id;
     private Integer payer_id;
     private Integer receiver_id;
     private Integer rv_id;
-    private Integer rv_reservation_id;
+    private Integer reservation_id;
     private Float price;
+
 
     public Integer getBill_id() {
         return bill_id;
@@ -40,12 +42,12 @@ public class Bill {
         this.rv_id = rv_id;
     }
 
-    public Integer getRv_reservation_id() {
-        return rv_reservation_id;
+    public Integer getReservation_id() {
+        return reservation_id;
     }
 
-    public void setRv_reservation_id(Integer rv_reservation_id) {
-        this.rv_reservation_id = rv_reservation_id;
+    public void setReservation_id(Integer reservation_id) {
+        this.reservation_id = reservation_id;
     }
 
     public Float getPrice() {
