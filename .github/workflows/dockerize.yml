@@ -36,4 +36,17 @@ jobs:
         with:
           file: ./Dockerfile_with_maven_build
           push: true
-          tags: anzeha/rv-catalog:${{ steps.time.outputs.time }}
+          tags: anzeha/billing:${{ steps.time.outputs.time }}
+      - name: Setup AKS context
+        uses: azure/aks-set-context@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+          resource-group: ${{ secrets.AZURE_RESOURCE_GROUP }}
+          cluster-name: rso-skupina3
+      - name: deploy to kubernetes
+        uses: Azure/k8s-deploy@v1.4
+        with:
+          manifests: |
+            k8s/billing-deployment.yaml
+          images: |
+            ${{ secrets.DOCKERHUB_USERNAME }}/billing:${{ steps.vars.outputs.sha_short }}
