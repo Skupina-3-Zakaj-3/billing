@@ -56,8 +56,10 @@ public class RvBillResource {
 
         log.info("createBill() - POST");
 
-        // TODO: check for needed parameters and send back bad request if they are not present
-        if (rvBill == null) {
+        if (rvBill == null || rvBill.getPayer_id() == null || rvBill.getReceiver_id() == null ||
+                rvBill.getRv_id() == null || rvBill.getPrice() == null || rvBill.getReservation_id() == null
+        ) {
+            log.info("Some needed values are missing!");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
         else {

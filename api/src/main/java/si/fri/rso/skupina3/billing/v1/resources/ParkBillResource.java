@@ -56,10 +56,13 @@ public class ParkBillResource {
 
         log.info("createBill() - POST");
 
-        // TODO: check for needed parameters and send back bad request if they are not present
-        if (parkBill == null) {
+        if (parkBill == null || parkBill.getPayer_id() == null || parkBill.getReceiver_id() == null ||
+                parkBill.getPark_id() == null || parkBill.getPrice() == null || parkBill.getReservation_id() == null
+        ) {
+            log.info("Some needed values are missing!");
             return Response.status(Response.Status.BAD_REQUEST).build();
         }
+        
         else {
             parkBill = parkBillBean.createBill(parkBill);
         }
