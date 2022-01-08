@@ -1,5 +1,6 @@
 package si.fri.rso.skupina3.billing.v1.resources;
 
+import com.kumuluz.ee.logs.cdi.Log;
 import si.fri.rso.skupina3.billing.services.beans.RvBillBean;
 import si.fri.rso.skupina3.lib.RvBill;
 
@@ -13,6 +14,7 @@ import javax.ws.rs.core.UriInfo;
 import java.util.List;
 import java.util.logging.Logger;
 
+@Log
 @ApplicationScoped
 @Path("/rv_bills")
 @Produces(MediaType.APPLICATION_JSON)
